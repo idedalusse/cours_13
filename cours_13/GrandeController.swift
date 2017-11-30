@@ -1,9 +1,4 @@
-//
-//  GrandeController.swift
-//  cours_13
-//
-//  Created by João Carlos Fernandes Neto on 17-11-24.
-//  Copyright © 2017 João Carlos Fernandes Neto. All rights reserved.
+
 //************************************
 import UIKit
 import Foundation
@@ -30,6 +25,7 @@ class GrandeController: UIViewController, UITableViewDelegate, UITableViewDataSo
         student_name_label.text = userDefaultsObj.getValue(theKey: "name") as? String
         loadUserDefaults()
         fillUpArray()
+        average.text = String(format: "%0.1f", average1(tabNotes: arrayOfGrades, moyene: {$0 / $1}))
     }
 //************************************
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -77,6 +73,7 @@ class GrandeController: UIViewController, UITableViewDelegate, UITableViewDataSo
         course_grande_tableveiw.reloadData()
         grandeField.text = ""// pour effacher automatiquement le champ apres validation
         couseField.text = ""// pour effacher automatiquement le champ apres validation
+        average.text = String(format: "%0.1f", average1(tabNotes: arrayOfGrades, moyene: {$0 / $1}))
     }
 //************************************ pour effecer le champs automatiquemnt apres remplissage
     
@@ -92,9 +89,20 @@ class GrandeController: UIViewController, UITableViewDelegate, UITableViewDataSo
             tableView.deleteRows(at: [indexPath as IndexPath], with: UITableViewRowAnimation.automatic)
         }
     }
+    //***************** code pour le calcule de la moyenne ****************//
+    
+    @IBOutlet weak var average: UILabel!
+    func average1 (tabNotes: [Double], moyene: (_ sum: Double, _ nombreDeNotes: Double) -> Double) -> Double {
+        let somme = tabNotes.reduce(0, +)
+        let resultat = moyene(somme, Double(tabNotes.count))
+        return resultat
+    }
     
 //************************************
 }
+
+
+
 
 
 

@@ -24,7 +24,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         loadUserDefaults()
+
     }
+    
 //************************************
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return studentGredes.count
@@ -71,7 +73,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
 }
-//************************************
+
 
 
 
