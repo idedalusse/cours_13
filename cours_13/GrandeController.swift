@@ -25,7 +25,8 @@ class GrandeController: UIViewController, UITableViewDelegate, UITableViewDataSo
         student_name_label.text = userDefaultsObj.getValue(theKey: "name") as? String
         loadUserDefaults()
         fillUpArray()
-        average.text = String(format: "%0.1f", average1(tabNotes: arrayOfGrades, moyene: {$0 / $1}))
+        //average.text = String(format: "%0.1f", average1(tabNotes: arrayOfGrades, moyene: {$0 / $1}))
+         average.text = verifAverage(dictDeNotes: moienne(), regleDe3:{ $0 * 100.0 / $1})
     }
 //************************************
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -73,7 +74,8 @@ class GrandeController: UIViewController, UITableViewDelegate, UITableViewDataSo
         course_grande_tableveiw.reloadData()
         grandeField.text = ""// pour effacher automatiquement le champ apres validation
         couseField.text = ""// pour effacher automatiquement le champ apres validation
-        average.text = String(format: "%0.1f", average1(tabNotes: arrayOfGrades, moyene: {$0 / $1}))
+        //average.text = String(format: "%0.1f", average1(tabNotes: arrayOfGrades, moyene: {$0 / $1}))
+        average.text = verifAverage(dictDeNotes: moienne(), regleDe3:{ $0 * 100.0 / $1})
     }
 //************************************ pour effecer le champs automatiquemnt apres remplissage
     
@@ -97,9 +99,24 @@ class GrandeController: UIViewController, UITableViewDelegate, UITableViewDataSo
         let resultat = moyene(somme, Double(tabNotes.count))
         return resultat
     }
+    func verifAverage(dictDeNotes: [Double: Double], regleDe3: (_ somme: Double, _ sur: Double) -> Double) -> String{
+        
+        let sommeNotes = [Double](dictDeNotes.keys).reduce(0, +)
+        let sommesur = [Double](dictDeNotes.values).reduce(0, +)
+        let conversion = regleDe3(sommeNotes, sommesur)
+        return String(format: "Average : %0.1f/100", sommeNotes, sommesur, conversion)
+    }
+    func moienne () ->  [Double: Double] {
+        let average = arrayOfGrades.reduce(0, +)
+        let somme = arrayOfGrades.count
+        let moienne = Double(average/Double(somme))
+        let dictNotes = [moienne: 10.0]
+        return dictNotes
+    }
     
-//************************************
 }
+
+
 
 
 
